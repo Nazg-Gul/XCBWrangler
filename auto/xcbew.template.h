@@ -20,8 +20,6 @@
 #include <stdint.h>
 #include <sys/types.h>
 
-#include <xcb/xcb.h>
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -30,9 +28,19 @@ extern "C" {
 #define XCBEW_VERSION_MAJOR 1
 #define XCBEW_VERSION_MINOR 0
 
+%definitions_all%
+
+/* Types */
+
+%types_definitions%
+
 /* Function types. */
 
 %functions_typedefs%
+
+/* Wrapper function declarations. */
+
+%functions_wrapper_declarations%
 
 /* Function declarations. */
 

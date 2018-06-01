@@ -270,6 +270,27 @@ def generate_extern_function_wrappers(functions):
         lines.append(line)
     return lines
 
+
+def generate_wrapper_declarations(functions):
+    """
+    Generate wrapper function declarations.
+    Those declarations actually matches functions from xcb headers.
+    """
+    lines = []
+    for function in functions:
+        line = ""
+        line += "{} {}" . format(formatAndCleanType(function.return_type),
+                                 function.name)
+        arguments = []
+        argument_names = []
+        for argument in function.arguments:
+            arguments.append(str(argument))
+            argument_names.append(argument.name)
+        line += "({})" . format(", " . join(arguments)) + ";"
+        lines.append(line)
+    return lines
+
+
 def add_functions_to_wrangler(header, wrangler, functions):
     section = ["/* " + os.path.basename(header) + " */"]
     typedefs = section + generate_function_typedefs(functions)
@@ -277,7 +298,9 @@ def add_functions_to_wrangler(header, wrangler, functions):
     definitions = section + generate_extern_function_definitions(functions)
     dynload = ["  " + section[0]] + generate_dynload_calls(header, functions)
     wrappers = section + generate_extern_function_wrappers(functions)
+    wrapper_declarations = generate_wrapper_declarations(functions)
     wrangler["functions"]["typedefs"].extend(typedefs)
+    wrangler["functions"]["wrapper_declarations"].extend(wrapper_declarations)
     wrangler["functions"]["declarations"].extend(externs)
     wrangler["functions"]["definitions"].extend(definitions)
     wrangler["functions"]["dynload"].extend(dynload)
@@ -344,6 +367,7 @@ if __name__ == "__main__":
     wrangler = {
         "functions": {
             "typedefs": [],
+            "wrapper_declarations": [],
             "declarations": [],
             "definitions": [],
             "dynload": [],

@@ -14,11 +14,6 @@ installed on the system. The usecases of this are:
 - Detect which XCB or other GUI protocol to use. It might be Wayland or even
   something more obscure.
 
-LIMITATIONS
-===========
-
-- Requires original headers at compile time.
-
 LICENSE
 =======
 
